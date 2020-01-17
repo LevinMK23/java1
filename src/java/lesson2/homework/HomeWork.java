@@ -26,7 +26,7 @@ public class HomeWork {
 
         System.out.println(Arrays.toString(changeLess6(new int[]{1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1})));
 
-
+        System.out.println(Arrays.deepToString(fillDiagonals1(new int[7][7])));
     }
 
 }

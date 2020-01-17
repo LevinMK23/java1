@@ -28,4 +28,12 @@ class ArrayUtils {
         return array;
     }
 
+    static int[][] fillDiagonals1(int[][] array) {
+        for (int line = 0; line < array.length; line++) {
+            for (int column = 0; column < array.length; column++) {
+                if (line == column || line == array.length - 1 - column) array[line][column] = 1;
+            }
+        }
+        return array;
+    }
 }
