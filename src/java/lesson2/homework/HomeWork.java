@@ -2,8 +2,7 @@ package lesson2.homework;
 
 import java.util.Arrays;
 
-import static lesson2.homework.ArrayUtils.change0and1;
-import static lesson2.homework.ArrayUtils.makeArray;
+import static lesson2.homework.ArrayUtils.*;
 
 /**
  * 1. Задать целочисленный массив, состоящий из элементов 0 и 1. Например: [ 1, 1, 0, 0, 1, 0, 1, 1, 0, 0 ].
@@ -24,5 +23,10 @@ public class HomeWork {
         System.out.println(Arrays.toString(change0and1(new int[]{1, 1, 0, 0, 1, 0, 1, 1, 0, 0})));
 
         System.out.println(Arrays.toString(makeArray()));
+
+        System.out.println(Arrays.toString(changeLess6(new int[]{1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1})));
+
+
     }
+
 }

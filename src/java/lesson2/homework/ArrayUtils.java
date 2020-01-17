@@ -20,4 +20,12 @@ class ArrayUtils {
         }
         return array;
     }
+
+    static int[] changeLess6(int[] array) {
+        for (int index = 0; index < array.length; index++) {
+            if (array[index] < 6) array[index] = array[index] * 2;
+        }
+        return array;
+    }
+
 }
