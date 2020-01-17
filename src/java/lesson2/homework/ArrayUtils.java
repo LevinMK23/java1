@@ -5,7 +5,7 @@ class ArrayUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    static int[] change0and1(int[] array) {
+    static int[] change0And1(int[] array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = (array[i] == 0) ? 1 : 0;
         }
@@ -35,5 +35,15 @@ class ArrayUtils {
             }
         }
         return array;
+    }
+
+    static int[] findMinAndMax(int[] array) {
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int index = 0; index < array.length; index++) {
+            if (array[index] < min) min = array[index];
+            if (array[index] > max) max = array[index];
+        }
+        return new int[]{min, max};
     }
 }
