@@ -1,5 +1,7 @@
 package lesson2.homework;
 
+import java.util.Arrays;
+
 class ArrayUtils {
     private ArrayUtils() {
         throw new IllegalStateException("Utility class");
@@ -45,5 +47,23 @@ class ArrayUtils {
             if (array[index] > max) max = array[index];
         }
         return new int[]{min, max};
+    }
+
+    static boolean checkBalance(int[] array) {
+        if (Arrays.stream(array).sum() % 2 != 0) return false;
+        int leftIndex = 0;
+        int rightIndex = array.length - 1;
+        int leftSum = array[leftIndex];
+        int rightSum = array[rightIndex];
+        for (int index = 0; index < array.length - 2; index++) {
+            if (leftSum > rightSum) {
+                rightIndex--;
+                rightSum += array[rightIndex];
+            } else {
+                leftIndex++;
+                leftSum += array[leftIndex];
+            }
+        }
+        return leftSum == rightSum;
     }
 }
