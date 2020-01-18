@@ -16,7 +16,8 @@ class ArrayUtils {
 
     static int[] makeArray() {
         int[] array = new int[8];
-        for (int index = 0, value = 0; index < array.length; index++) {
+        int value = 0;
+        for (int index = 0; index < array.length; index++) {
             array[index] = value;
             value += 3;
         }
