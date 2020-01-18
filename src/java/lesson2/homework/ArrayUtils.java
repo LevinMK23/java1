@@ -67,4 +67,22 @@ class ArrayUtils {
         }
         return leftSum == rightSum;
     }
+
+    static int[] moveArrayElements(int[] array, int offset) {
+        int realOffset = offset % array.length;
+        if (offset > 0) {
+            for (int step = 0; step < realOffset; step++) {
+                int lastElement = array[array.length - 1];
+                for (int index = array.length - 1; index > 0; index--) array[index] = array[index - 1];
+                array[0] = lastElement;
+            }
+        } else {
+            for (int step = 0; step < Math.abs(realOffset); step++) {
+                int firstElement = array[0];
+                for (int index = 1; index < array.length; index++) array[index - 1] = array[index];
+                array[array.length - 1] = firstElement;
+            }
+        }
+        return array;
+    }
 }
