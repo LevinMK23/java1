@@ -1,37 +1,51 @@
 package lesson1;
 
 public class HomeWork {
-    // TODO: 14.01.2020
-    /*
-    * Реализуйте методы данного класса
-    * */
-
-    public int task3(int a, int b, int c, int d) {
-        // TODO: 14.01.2020
-        return 0;
+    public static void main(String[] args) {
+        System.out.println(calc(5,6, 3, 2));
+        System.out.println(task10and20(6, 5));
+        isPositiveOrNegative(0);
+        System.out.println(isNegative(-1));
+        greetings("Mike");
     }
 
-    public boolean task4(int a, int b) {
-        // TODO: 14.01.2020
-        return false;
+    byte byteValue = 10;
+    short shortValue= 10000;
+    int intValue = 100000 ;
+    long longValue = 100000000000000L;
+    float floatValue = 1.4f;
+    double doubleValue = 1.5;
+    char charValue = 'a';
+    boolean booleanValue = true; // true, false
+
+    public static float calc(float a, float b, float c, float d){
+        return a * (b + (c / d));
+    }
+    public static boolean task10and20( int w, int q){
+        if (10 <= w + q && w + q <= 20) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static void isPositiveOrNegative(int z){
+        if (z >= 0){
+            System.out.println("Число положительное.");
+        } else {
+            System.out.println("Число отрицательное.");
+        }
+
+    }
+    public static boolean isNegative(int x){
+        if(x < 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static void greetings(String name){
+        System.out.println("Приветствую тебя, " + name + "!");
     }
 
-    public void task5(int number) {
-        // TODO: 14.01.2020
-    }
-
-    public boolean task6(int val) {
-        // TODO: 14.01.2020
-        return false;
-    }
-
-    public void task7(String name) {
-        // TODO: 14.01.2020
-    }
-
-    public boolean isLeapYear(int year) {
-        // TODO: 14.01.2020 task8 *
-        return false;
-    }
 
 }
