@@ -2,68 +2,40 @@ package lesson2.homework;
 
 import java.util.Arrays;
 
+
+
 public class HomeWork {
-    // TODO: 17.01.2020
-    public static int[] inverse(int[] array) {
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (array[i] + 1) % 2;
-        }
-        return array;
+    public static void main(String[] args) {
+
+
+//** Задать одномерный массив и найти в нем минимальный и максимальный элементы (без помощи интернета);
+
+        int[] maxMinArray = {5, 44, -34, 22, 44, -4, 5, 6, 4, 5, -56, 34, 67, 8};
+        Arrays.sort(maxMinArray);
+        int max = maxMinArray[maxMinArray.length - 1], min = maxMinArray[0];
+        System.out.println(max);
+        System.out.println(min);
+
+// Проверка методов
+        System.out.println(checkBalance(new int[]{2, 2, 2, 1, 2, 2, 10, 1}));
+        int[] array = new int[]{1, 2, 3, 4, 5, 6, 7};
+        shift(array, -1);
+        System.out.println(Arrays.toString(array));
     }
 
-    public static int[] fillArray(int len) {
-        int[] arr = new int[len];
-        for (int i = 1; i < len; i++) {
-            arr[i] = arr[i - 1] + 3;
-        }
-        return arr;
-    }
 
-    //O(len) -> O(len * len)
-    public static int[][] fillMatrix(int len) {
-        int[][] matrix = new int[len][len];
-        for (int i = 0; i < len; i++) {
-            matrix[i][i] = 1;
-            matrix[i][len - i - 1] = 1;
-        }
-        return matrix;
-    }
+//** Написать метод, в который передается не пустой одномерный целочисленный массив,
+// метод должен вернуть true, если в массиве есть место, в котором сумма левой и правой части массива равны.
+// Примеры: checkBalance([2, 2, 2, 1, 2, 2, || 10, 1]) → true, checkBalance([1, 1, 1, || 2, 1]) → true,
+// граница показана символами ||, эти символы в массив не входят.
 
-    public static int min(int[] array) {
-        int min = array[0];
-        for (int i : array) {
-            min = Math.min(min, i);
-        }
-        return min;
-    }
-
-    //{1 2 3 4 5}, 2 -> 4 5 1 2 3
-    //1 2 3 4 5 -2 -> 3 4 5 1 2
-    public static void shiftRight(int[] array, int shift) {
-        if (shift < 0) {
-            shift = -shift;
-            shift %= array.length;
-            shift = array.length - shift;
-        } else {
-            shift = shift % array.length;
-        }
-        while (shift > 0) {
-            int tmp = array[array.length - 1];
-            for (int i = array.length - 1; i >= 1; i--) {
-                array[i] = array[i - 1];
-            }
-            array[0] = tmp;
-            shift--;
-        }
-    }
-
-    public static boolean checkBalance(int [] array) {
+    public static boolean checkBalance(int[] array) {
         int sum = 0, leftSum = 0;
         for (int i : array) {
             sum += i;
         }
         for (int i : array) {
-            leftSum += i; //rightSum = sum - leftSum
+            leftSum += i;
             if (2 * leftSum == sum) {
                 return true;
             }
@@ -71,31 +43,23 @@ public class HomeWork {
         return false;
     }
 
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString(inverse(new int[]{0, 0, 1, 1, 0, 1})));
-        System.out.println(Integer.toBinaryString(121));
-        System.out.println(inverse(121));
-        System.out.println(Arrays.toString(fillArray(8)));
-        int[][] m = fillMatrix(5);
-//        for (int i = 0; i < m.length; i++) {
-//            for (int j = 0; j < m[i].length; j++) {
-//                System.out.print(m[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-        for (int[] row : m) {
-            for (int element : row) {
-                System.out.print(element + " ");
-            }
-            System.out.println();
-        }
-        System.out.println(min(new int[]{5, 7, -1, 4, 3, -2, 1}));
-        int[] array = new int[]{1, 2, 3, 4, 5};
-        shiftRight(array, -1);
-        System.out.println(Arrays.toString(array));
-    }
+//**** Написать метод, которому на вход подается одномерный массив и число n (может быть положительным, или отрицательным),
+// при этом метод должен сместить все элементы массива на n позиций.
+// Для усложнения задачи нельзя пользоваться вспомогательными массивами.
 
-    private static String inverse(int value) {
-        return Integer.toBinaryString(~value);
+    public static void shift(int[] array, int n) {
+        if (n < 0) {
+            n = -n;
+            n = n % array.length;
+            n = array.length - n;
+        } else {
+            n = n % array.length;
+        }
+        while (n > 0){
+            int temp = array[array.length - 1];
+            System.arraycopy(array, 0, array, 1, array.length - 1);
+            array[0] = temp;
+            n--;
+        }
     }
 }
