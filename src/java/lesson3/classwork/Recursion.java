@@ -9,14 +9,26 @@ public class Recursion {
         return x * f(x - 1);
     }
 
+    //()(())((()))
+    //f(3) = f(2) + (f(2)) = ()(())((()))
+    //f(2) = ()+ (()) = ()(())
+    //f(1) = ()
+
+    static String gen(int n) {
+        if (n == 1) return "()";
+        return "(" + gen(n - 1) + "())";
+    }
+
+    //f(4) -> 4 * f(3) -> 4 * 3 * f(2) -> 4 * 3 * 2 * f(1) -> 4 * 3 * 2 * 1
+
     public static void print(Scanner in) {
         int n = in.nextInt();
         if (n == 0) return;
         print(in);
         System.out.print(n + " ");
     }
-
-    //aaaabbbccc = 4(a)3(b)3(c) -> 4(a)3(b)ccc -> 4(a)bbbccc -> aaaabbbccc
+    //3(aaaabbb)3(c) = aaaabbbaaaabbbaaaabbbccc
+    //aaaabbbccc = 3(4(a)3(b))3(c) -> 4(a)3(b)ccc -> 4(a)bbbccc -> aaaabbbccc
     public static String decompress(String s) {
         int lastBracket = s.lastIndexOf('(');
         if (lastBracket == -1) {
@@ -25,6 +37,7 @@ public class Recursion {
             int endBracket = lastBracket + s.substring(lastBracket).indexOf(')');
             int value = 0, pos = lastBracket - 1;
             while (pos >= 0 && s.charAt(pos) >= '0' && s.charAt(pos) <= '9') {
+                //BUG
                 value = value * 10 + (s.charAt(pos) - '0');
                 pos--;
             }
@@ -42,6 +55,7 @@ public class Recursion {
     }
 
     public static void main(String[] args) {
+        //System.out.println(gen(3));
         System.out.println(decompress("2(def2(c2(ab2(cd)12(x))))"));
     }
 }
