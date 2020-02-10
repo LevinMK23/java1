@@ -14,16 +14,8 @@ public class HomeWork {
      * use regex, split, lowerCase, replace methods
      * */
     public int countOfWordsFromDictionaryInString(String input, String[] dictionary) {
-        String [] words = input.split(" ");
-        int cnt = 0;
-        for (String word : words) {
-            word = word.toLowerCase().replaceAll("[^a-z]+", "");
-            System.out.println(word);
-            for (String dic : dictionary) {
-                if (word.equals(dic.toLowerCase())) cnt++;
-            }
-        }
-        return cnt;
+        //
+        return 0;
     }
 
     /* example:
@@ -32,8 +24,8 @@ public class HomeWork {
      * use sort
      * */
     public int kOrderValue(int[] array, int k) {
-        Arrays.sort(array);
-        return array[k-1];
+        //Arrays.sort(array);
+        return 0;
     }
 
     /*
@@ -65,65 +57,11 @@ public class HomeWork {
     }
 
     public void binarySearchGame() {
-        int secretValue = new Random().nextInt(100); // компьютер загадывает число
-        Scanner in = new Scanner(System.in);
-        int cnt = 7;
-        while (cnt > 0) {
-            System.out.println("У вас " + cnt + " попыток, чтобы угадать мое число!" +
-                    " Введите ваше предположение");
-            int userPredict = in.nextInt();
-            if (userPredict > secretValue) {
-                System.out.println("Ваше значение больше моего");
-            } else if (userPredict < secretValue) {
-                System.out.println("Ваше значение меньше моего");
-            } else {
-                System.out.println("Поздравляю, Вы победили! Было загадано число " + secretValue);
-                System.out.println("1. Продолжить\n2. Выйти\nВведите число:");
-                int state = in.nextInt();
-                if (state == 1) {
-                    binarySearchGame();
-                } else if (state == 2) {
-                    return;
-                } else {
-                    System.out.println("Input ERROR");
-                    return;
-                }
-            }
-            cnt--;
-        }
-        System.out.println("Ваши попытки кончились! Вы проиграли!");
+        //
     }
 
     public void wordsGame() throws FileNotFoundException {
-        String [] words = new Scanner(new File("input.txt"))
-                .nextLine().replaceAll("\\{|\\}|\"|;", "").split(", ");
-        //System.out.println(Arrays.toString(words));
-        Random rnd = new Random();
-        Scanner in = new Scanner(System.in);
-        String secretWord = words[rnd.nextInt(words.length)];
-        System.out.println("Я загадал слово, попробуй его отгадать");
-        while (true) {
-            System.out.println("Введи слово");
-            String word = in.next();
-            if (word.equals(secretWord)) {
-                System.out.println("Ура, ты угадал мое слово, это было: " + secretWord);
-                break;
-            } else {
-                    String s = "";
-                    int minLength = Math.min(word.length(), secretWord.length());
-
-                    for (int i = 0; i < minLength; i++) {
-                        if (word.charAt(i) != secretWord.charAt(i)) {
-                            i = 10000000;
-                            break;
-                        } else {
-                            s += word.charAt(i);
-                        }
-                    }
-                    while (s.length() < 15) s += "#";
-                    System.out.println(s);
-            }
-        }
+        //
     }
 
     public static void main(String[] args) throws FileNotFoundException {
