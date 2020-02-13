@@ -1,8 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="java1:jar">
+  <artifact name="java1:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/java1_jar</output-path>
-    <root id="archive" name="java1.jar">
-      <element id="module-output" name="java1" />
+    <root id="root">
+      <element id="archive" name="java1.jar">
+        <element id="module-output" name="java1" />
+      </element>
+      <element id="library" level="project" name="Maven: org.xerial:sqlite-jdbc:3.28.0" />
     </root>
   </artifact>
 </component>

@@ -1,5 +1,7 @@
 package lesson4;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -7,92 +9,134 @@ import java.util.Scanner;
 
 public class Main {
 
-    static void showTable(char [][] t) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print("|" + t[i][j]);
+    static char [][] createEmptyTable(int len) {
+        char [][] table = new char[len][len];
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                table[i][j] = '_';
+            }
+        }
+        return table;
+    }
+
+    static void show(char [][] table) {
+        int len = table.length;
+        System.out.print("   ");
+        for (int i = 0; i < len; i++) {
+            System.out.print((i + 1) + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < len; i++) {
+            System.out.print((i + 1) + " ");
+            for (int j = 0; j < len; j++) {
+                System.out.print("|" + table[i][j]);
             }
             System.out.println("|");
         }
     }
 
-    static void checkVictory(int [][] X, boolean user) {
-        for (int i = 0; i < 3; i++) {
-            int sX = 0, sY = 0, dS1 = 0, dS2 = 0;
-            for (int j = 0; j < 3; j++) {
-                sX += X[i][j];
-                sY += X[j][i];
-                dS1 += X[j][j];
-                dS2 += X[j][2 - j];
-                if (sX == 3 || sY == 3 || dS1 == 3 || dS2 == 3) {
-                    System.out.println(user ? "Вы победили!" : "Вы проиграли");
-                    //System.out.println(sX + " " + sY + " " + dS1 + " " + dS2);
-                    System.exit(0);
-                }
-            }
-        }
+    private static boolean isValid(int x, int y, char[][] table) {
+        int l = table.length - 1;
+        if (x < 0 || x > l) return false;
+        if (y <0 || y > l) return false;
+        return table[x][y] == '_';
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        Scanner in = new Scanner(System.in);
-        char def = '_';
-        char [][] t = new char[3][3];
-        int [][] X = new int[3][3];
-        int [][] o = new int[3][3];
-        for (int i = 0; i < 3; i++) {
-            Arrays.fill(t[i], def);
+    private static boolean isVictory(char[][] table, char x) {
+        int len = table.length;
+        for (int i = 0; i < table.length; i++) {
+            int sX = 0, sY = 0, d1 = 0, d2 = 0;
+            for (int j = 0; j < table.length; j++) {
+                sX += table[i][j] == x ? 1 : 0;
+                sY += table[j][i] == x ? 1 : 0;
+                d1 += table[j][j] == x ? 1 : 0;
+                d2 += table[j][len - j - 1] == x ? 1 : 0;
+            }
+            if (sX == len || sY == len
+                    || d1 == len || d2 == len) return true;
         }
-        showTable(t);
-        System.out.println("Вы играете крестиками!" +
-                " Выберете номер строки и столбца");
-        char user = 'X';
-        int limit = 9;
+        return false;
+    }
+
+    public static void main(String[] args) {
+        // XO 3 * 3
+        int counter = 0;
+        Scanner in = new Scanner(System.in);
+        System.out.println("Игра: крестики нолики");
+        System.out.println("Введите размер игрового поля");
+        int n = in.nextInt();
+        System.out.printf("Игровое поле %d X %d\n", n, n);
+        char [][] table = createEmptyTable(n);
+        show(table);
         while (true) {
-            System.out.println("Ваш ход:");
+            System.out.println("Для того, чтобы совершить ход:" +
+                    " введите номер строки и номер столбца игрового поля");
             int x = in.nextInt(), y = in.nextInt();
             x--; y--;
-            while (t[x][y] != def) {
-                System.out.println("Выберите пустую клетку! Ваш ход:");
-                x = in.nextInt(); x--;
-                y = in.nextInt(); y--;
+            //alt + enter
+            if (isValid(x, y, table)) {
+                table[x][y] = 'X';
+                counter++;
+                show(table);
+            } else {
+                System.out.println("Введены некорректные данные");
+                continue;
             }
-            t[x][y] = user;
-            X[x][y] = 1;
-            showTable(t);
-            checkVictory(X, true);
-            System.out.println("Компьютер думает как походить");
-            for (int i = 0; i < 7; i++) {
-                System.out.print("*");
-                Thread.sleep(250);
+            if (isVictory(table, 'X')) {
+                System.out.println("Вы победили!");
+                break;
+                //new game ?
+            }
+            if (counter == 9) {
+                System.out.println("Ничья!");
+                break;
+            }
+            System.out.println("Компьютер думает над ходом");
+            for (int i = 0; i < 9; i++) {
+                System.out.print(" * ");
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             System.out.println();
-            moveAI(t, o);
-            showTable(t);
-            checkVictory(o, false);
-            System.out.println("******");
-            limit--;
-            if (limit == 0) {
-                System.out.println("Ничья");
-                System.exit(0);
+            movePCRandom(table);
+            counter++;
+            show(table);
+            if(isVictory(table, 'O')) {
+                System.out.println("Вы проиграли!");
+                break;
             }
         }
     }
 
-    private static void moveAI(char[][] t, int [][] X) {
-        ArrayList<int []> pairs = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (t[i][j] == '_') {
-                    pairs.add(new int[]{i, j});
+    private static void movePCRandom(char[][] table) {
+        Random rnd = new Random();
+        int len = table.length;
+        while (true) {
+            int x = rnd.nextInt(len), y = rnd.nextInt(len);
+            if (isValid(x, y, table)) {
+                table[x][y] = 'O';
+                return;
+            }
+        }
+    }
+
+    private static void movePCEasy(char[][] table) {
+        for (int i = 0; i < table.length; i++) {
+            for (int j = 0; j < table.length; j++) {
+                if (table[i][j] == '_') {
+                    table[i][j] = 'O';
+                    return;
                 }
             }
         }
-        if (pairs.size() == 0) {
-            return;
-        }
-        int [] rnd = pairs.get(new Random().nextInt(pairs.size()));
-        t[rnd[0]][rnd[1]] = 'O';
-        X[rnd[0]][rnd[1]] = 1;
+    }
+
+    private static void movePCHard(char[][] table) {
+        // TODO: 13.02.2020
+        // HomeWork
     }
 
 }

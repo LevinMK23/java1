@@ -2,9 +2,7 @@ package lesson3.homework;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class HomeWork {
 
@@ -14,8 +12,20 @@ public class HomeWork {
      * use regex, split, lowerCase, replace methods
      * */
     public int countOfWordsFromDictionaryInString(String input, String[] dictionary) {
-        //
-        return 0;
+        HashSet<String> set = new HashSet<>();
+        for (String word : dictionary) {
+            set.add(word.toLowerCase());
+        }
+        //System.out.println(set);
+        String [] words = input.split(" +");
+        int cnt = 0;
+        for (String word : words) {
+            //System.out.println(word.toLowerCase().replaceAll("[^a-z]+", ""));
+            if (set.contains(word.toLowerCase().replaceAll("[^a-z]+", ""))) {
+                cnt++;
+            }
+        }
+        return cnt;
     }
 
     /* example:
@@ -24,8 +34,8 @@ public class HomeWork {
      * use sort
      * */
     public int kOrderValue(int[] array, int k) {
-        //Arrays.sort(array);
-        return 0;
+        Arrays.sort(array);
+        return array[k-1];
     }
 
     /*
@@ -43,7 +53,43 @@ public class HomeWork {
      */
     public String[] translate(String[] values, String[] from, String[] to) {
         // TODO: 1/22/2020
-        return null;
+        if (from.length == to.length) {
+            for (int i = 0; i < values.length; i++) {
+                for (int j = 0; j < from.length; j++) {
+                    if (from[j].equals(values[i])) {
+                        values[i] = to[j];
+                    }
+                }
+            }
+        }else if (from.length > to.length) {
+            for (int i = 0; i < values.length; i++) {
+                for (int j = 0; j < to.length; j++) {
+                    if (from[j].equals(values[i])) {
+                        values[i] = to[j];
+                    }
+                }
+            }
+            ArrayList<String> words = new ArrayList<>();
+            Collections.addAll(words, values);
+            for (int i = to.length; i < from.length; i++) {
+                words.remove(from[i]);
+            }
+            return words.toArray(new String[]{});
+        } else {
+            for (int i = 0; i < values.length; i++) {
+                boolean flag = false;
+                for (int j = 0; j < from.length; j++) {
+                    if (from[j].equals(values[i])) {
+                        values[i] = to[j];
+                        flag = true;
+                    }
+                }
+                if (!flag) {
+                    values[i] = to[from.length];
+                }
+            }
+        }
+        return values;
     }
 
     /* example:
@@ -53,6 +99,7 @@ public class HomeWork {
      * use matches
      * */
     public boolean isEmail(String input) {
+
         return input.matches("[a-zA-Z0-9.]+@[a-zA-Z0-9.]+");
     }
 
@@ -65,6 +112,9 @@ public class HomeWork {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        new HomeWork().wordsGame();
+        System.out.println(new HomeWork()
+                .countOfWordsFromDictionaryInString("Mama mila ramu, Ramu mila mama!!!",
+                        new String[]{"mama", "mila"}));
+
     }
 }
