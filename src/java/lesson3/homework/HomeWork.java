@@ -1,132 +1,97 @@
 package lesson3.homework;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-
 public class HomeWork {
-
-    /* example:
-     * input: Mama mila ramu, Ramu mila mama!!!, [mama, ramu]
-     * output: 4
-     * use regex, split, lowerCase, replace methods
-     * */
-    public int countOfWordsFromDictionaryInString(String input, String[] dictionary) {
-        String [] words = input.split(" ");
-        int cnt = 0;
-        for (String word : words) {
-            word = word.toLowerCase().replaceAll("[^a-z]+", "");
-            System.out.println(word);
-            for (String dic : dictionary) {
-                if (word.equals(dic.toLowerCase())) cnt++;
-            }
+    /* Написать программу, которая загадывает случайное число от 0 до 9 и пользователю дается 3 попытки угадать это число.
+    При каждой попытке компьютер должен сообщить, больше ли указанное пользователем число, чем загаданное, или меньше.
+    После победы или проигрыша выводится запрос – «Повторить игру еще раз? 1 – да / 0 – нет»(1 – повторить, 0 – нет).
+    */
+    public static String[] words;
+    public static void main(String[] args) {
+        int game = getNumberFromScanner("Какую игру Вы хотите запустить? 0 – Угадай число / 1 – Угадай слово", 0, 1);
+        if (game == 0) {
+            System.out.println("Вас приветсвует игра УГАДАЙ ЧИСЛО. Вам даеться три попытки.");
+            guessNumber();
         }
-        return cnt;
-    }
+        else {
+            words = new String[]{"apple", "orange", "lemon", "banana", "apricot", "avocado", "broccoli", "carrot", "cherry", "garlic", "grape", "melon", "leak", "kiwi", "mango", "mushroom", "nut", "olive", "pea", "peanut", "pear", "pepper", "pineapple", "pumpkin", "potato"};
+            System.out.println("Вас приветсвует игра УГАДАЙ СЛОВО. Компьютер загадал одно из следующих слов: ");
+            for (int i = 0; i < 25; i++) System.out.println(words[i]);
+            guessWord();
+        }
 
-    /* example:
-     * input: [1,0,3,17,2,7,14,1,1,7], K = 6
-     * output: 3
-     * use sort
-     * */
-    public int kOrderValue(int[] array, int k) {
-        Arrays.sort(array);
-        return array[k-1];
+        }
+
+
+    public static int getNumberFromScanner(String message, int min, int max) {
+        int numberFromScaner;
+        do {
+            System.out.println(message);
+            Scanner sc = new Scanner(System.in);
+            numberFromScaner = sc.nextInt();
+        } while (numberFromScaner < min || numberFromScaner > max);
+        return numberFromScaner;
+    }
+    public static void guessNumber() {
+        Random rand = new Random();
+        int x = rand.nextInt(10);
+        for (int count = 1; count <= 3; count++) {
+            int number = getNumberFromScanner("Введите число в пределах от 0 до 9", 0, 9);
+            String alert = number > x ? "Загаданное число меньше." : (number < x ? "Загаданное число больше." : "Поздравляю!!! Вы угадали!");
+            if (number == x) {
+                System.out.println(alert);
+                break;
+            }
+            String attempt = count == 3 ? " попыток" : (count == 2 ? " попытка" : " попытки");
+            if (count == 3) System.out.println("Попытки закончились. Вы проиграли. Загаданое число " + x);
+            else System.out.println(alert + " У Вас осталось " + (3 - count) + attempt);
+        }
+        int q = getNumberFromScanner("Повторить игру еще раз? 1 – да / 0 – нет", 0, 1);
+        if (q == 1) guessNumber();
+        else return;
+
     }
 
     /*
-    *  Это реальная задача, которую я сегодня делал на работе
-    *  Кому интересно, можете проверить свои силы))))
-    *  Если слово из values есть в словаре from, его необходимо заменить
-    *  с from[i] на to[i] [a, b, c], [a, b], [x, y] -> [x, y, c]
-    *  Если словарь to длиннее from, то строка to[from.length] - дефолтное
-    *  значение для всех values, которых нет в словаре from
-    *  [a, b, c, d], [a, b], [x, y, lol] -> [x, y, lol, lol]
-    *  Если словарь from длиннее to, то необходимо удалить из values все значения
-    *  имющиеся в куске from на индексах от to.length до rom.length
-    *  [a, b, c, d], [a, b, e, d], [x, y] -> [x, y, c] d удалем, так как он есть во
-    *  from
-     */
-    public String[] translate(String[] values, String[] from, String[] to) {
-        // TODO: 1/22/2020
-        return null;
-    }
+     * Создать массив из словString[] words = {"apple", "orange", "lemon", "banana", "apricot", "avocado", "broccoli", "carrot", "cherry", "garlic", "grape", "melon", "leak", "kiwi", "mango", "mushroom", "nut", "olive", "pea", "peanut", "pear", "pepper", "pineapple", "pumpkin", "potato"}.
+    При запуске программы компьютер загадывает слово, запрашивает ответ у пользователя, сравнивает его с загаданным словом и сообщает, правильно ли ответил пользователь. Если слово не угадано, компьютер показывает буквы, которые стоят на своих местах.
+    apple – загаданное
+    apricot - ответ игрока
+    ap############# (15 символов, чтобы пользователь не мог узнать длину слова)
+    Для сравнения двух слов посимвольно можно пользоваться:
+    String str = "apple";
+    char a = str.charAt(0); - метод, вернет char, который стоит в слове str на первой позиции
+    Играем до тех пор, пока игрок не отгадает слово.
+    Используем только маленькие буквы.
+    */
 
-    /* example:
-     * input: m.levin.main@mailg.spb.com
-     * output: true
-     *
-     * use matches
-     * */
-    public boolean isEmail(String input) {
-        return input.matches("[a-zA-Z0-9.]+@[a-zA-Z0-9.]+");
-    }
 
-    public void binarySearchGame() {
-        int secretValue = new Random().nextInt(100); // компьютер загадывает число
-        Scanner in = new Scanner(System.in);
-        int cnt = 7;
-        while (cnt > 0) {
-            System.out.println("У вас " + cnt + " попыток, чтобы угадать мое число!" +
-                    " Введите ваше предположение");
-            int userPredict = in.nextInt();
-            if (userPredict > secretValue) {
-                System.out.println("Ваше значение больше моего");
-            } else if (userPredict < secretValue) {
-                System.out.println("Ваше значение меньше моего");
+    public static void guessWord() {
+        Random rand = new Random();
+        int x = rand.nextInt(25);
+        String word = words[x];
+        for( ; ;) {
+            System.out.println(" Введите слово:");
+            Scanner sc = new Scanner(System.in);
+            String wordFromScaner = sc.next();
+            wordFromScaner = wordFromScaner.toLowerCase();
+            if (wordFromScaner.equals(word)) {
+                System.out.println("Поздравляю Вы угадали слово!!!!");
+                return;
             } else {
-                System.out.println("Поздравляю, Вы победили! Было загадано число " + secretValue);
-                System.out.println("1. Продолжить\n2. Выйти\nВведите число:");
-                int state = in.nextInt();
-                if (state == 1) {
-                    binarySearchGame();
-                } else if (state == 2) {
-                    return;
-                } else {
-                    System.out.println("Input ERROR");
-                    return;
+                System.out.println("Вы не угадали(. Попробуйте еще раз. Воспользуйтесь подсказкой - ");
+                int minWordLenght = Math.min(wordFromScaner.length(), word.length());
+                for (int i = 0; i < minWordLenght; i++) {
+                    char character = wordFromScaner.charAt(i) == word.charAt(i) ? wordFromScaner.charAt(i) : '#';
+                    System.out.print(character);
                 }
-            }
-            cnt--;
-        }
-        System.out.println("Ваши попытки кончились! Вы проиграли!");
-    }
+                for (int y = 1; y < 15 - minWordLenght; y++) {
+                    System.out.print("#");
+                }
 
-    public void wordsGame() throws FileNotFoundException {
-        String [] words = new Scanner(new File("input.txt"))
-                .nextLine().replaceAll("\\{|\\}|\"|;", "").split(", ");
-        //System.out.println(Arrays.toString(words));
-        Random rnd = new Random();
-        Scanner in = new Scanner(System.in);
-        String secretWord = words[rnd.nextInt(words.length)];
-        System.out.println("Я загадал слово, попробуй его отгадать");
-        while (true) {
-            System.out.println("Введи слово");
-            String word = in.next();
-            if (word.equals(secretWord)) {
-                System.out.println("Ура, ты угадал мое слово, это было: " + secretWord);
-                break;
-            } else {
-                    String s = "";
-                    int minLength = Math.min(word.length(), secretWord.length());
-
-                    for (int i = 0; i < minLength; i++) {
-                        if (word.charAt(i) != secretWord.charAt(i)) {
-                            i = 10000000;
-                            break;
-                        } else {
-                            s += word.charAt(i);
-                        }
-                    }
-                    while (s.length() < 15) s += "#";
-                    System.out.println(s);
             }
         }
-    }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        new HomeWork().wordsGame();
+
     }
 }
