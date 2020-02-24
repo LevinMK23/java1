@@ -1,34 +1,36 @@
 package lesson7.classwork;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Input {
-    public static void main(String[] args) throws IOException {
-        String path = "C:\\Users\\Mikhail\\IdeaProjects\\java1\\src\\java\\lesson7\\res\\out.txt";
-        File f = new File(path);
-        OutputStream fout = new FileOutputStream(f, true);
-//        fout.write(49);
-//        fout.write(49);
-//        fout.write(49);
-//        fout.close();
-        try(PrintWriter pr = new PrintWriter(fout)) {
-            pr.println("My text 2");
-        }
-        InputStream in = System.in;
-        OutputStream out = System.out;
 
-//        int x, val = 0;
-//        //new Scanner(in).nextInt();
-//        while ((x = in.read()) != -1) {
-//            out.write(x);
-//            if (x == 10) break;
-//            if (x <= '0' || x >= '9') {
-//                System.err.println("Number format exception");
-//                return;
-//            }
-//            val = (val * 10) + x - '0';
-//        }
-//        System.out.println(val);
+    static void readAllLines(File file) throws FileNotFoundException {
+        Scanner in = new Scanner(file);
+        while (in.hasNextLine()) {
+            System.out.println(in.nextLine());
+        }
+    }
+
+    static void appendToFile(File file, String word) throws FileNotFoundException {
+        PrintWriter pr = new PrintWriter(new FileOutputStream(file, true));
+        pr.print(word);
+        pr.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+        File file = new File("out.txt");
+        /*String s = new String("aaaaaaa".getBytes(),
+                StandardCharsets.UTF_8);
+        PrintWriter pr = new PrintWriter(file);
+        pr.print(s);
+        pr.close();
+        byte [] in = new byte[1024];
+        int count = new FileInputStream(file).read(in);
+        System.out.println(count);*/
+        appendToFile(file, "\nOK");
+        appendToFile(file, "\nNO");
+        readAllLines(file);
     }
 }

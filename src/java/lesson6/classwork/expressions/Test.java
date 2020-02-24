@@ -1,7 +1,5 @@
 package lesson6.classwork.expressions;
 
-import javafx.scene.control.TreeTableColumn;
-
 import java.util.ArrayList;
 
 public class Test {
